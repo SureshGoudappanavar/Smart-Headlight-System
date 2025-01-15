@@ -1,0 +1,161 @@
+const int trigPin = 3;  // Trigger pin
+const int echoPin = 5; // Echo pin
+long duration;
+int distance;
+const int car_dist= 30;
+
+const int LDRPin0=A0;
+const int LDRPin1=A1;
+const int LDRPin2=A2;
+const int LDRPin3=A3;
+
+const int LEDPin0= 11;
+const int LEDPin1= 10;
+const int LEDPin2= 9;
+const int LEDPin3= 6;
+
+ int LEDB0= 255;
+ int LEDB1= 255;
+ int LEDB2= 255;
+ int LEDB3= 255;
+ 
+ int LEDB0Cnt= 0;
+ int LEDB1Cnt= 0;
+ int LEDB2Cnt= 0;
+ int LEDB3Cnt= 0;
+
+void setup() 
+{
+  Serial.begin(9600);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode (LDRPin0, INPUT);
+  pinMode (LDRPin1, INPUT);
+  pinMode (LDRPin2, INPUT);
+  pinMode (LDRPin3, INPUT);
+  pinMode (LEDPin0, OUTPUT);
+  pinMode (LEDPin1, OUTPUT);
+  pinMode (LEDPin2, OUTPUT);
+  pinMode (LEDPin3, OUTPUT);
+  
+}
+void loop() {
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = duration * 0.034 / 2;
+  Serial.println(distance);
+  delay(200);
+  
+int LDRStatus0 = analogRead(LDRPin0);
+int LDRStatus1 = analogRead(LDRPin1);
+int LDRStatus2 = analogRead(LDRPin2);
+int LDRStatus3 = analogRead(LDRPin3);
+
+Serial.println(" "); 
+Serial.print("LDR0 Value is ");
+Serial.println(LDRStatus0); 
+Serial.println(" ");   
+Serial.print("LDR1 Value is ");
+Serial.println(LDRStatus1);
+Serial.println(" ");    
+Serial.print("LDR2 Value is ");
+Serial.println(LDRStatus2);
+Serial.println(" ");  
+Serial.print("LDR3 Value is ");
+Serial.println(LDRStatus3);
+Serial.println("--------------"); 
+ analogWrite(LEDPin0, LEDB0);
+ analogWrite(LEDPin1, LEDB1);
+ analogWrite(LEDPin2, LEDB2);
+ analogWrite(LEDPin3, LEDB3);
+  if ( (distance<car_dist)&(170<=LDRStatus0) ){
+if((20<=LDRStatus0)&(LEDB0Cnt==0))
+  {
+ LEDB0=0;
+ LEDB1=90;
+ LEDB2=80;
+ LEDB3=70;
+ LEDB0Cnt=LEDB0Cnt+1;
+
+  }else{
+  LEDB0=100;}
+  
+  
+if((55<=LDRStatus1)&(LEDB1Cnt==0))
+  {
+ LEDB0=0;
+ LEDB1=0;
+ LEDB2=80;
+ LEDB3=70;
+ LEDB1Cnt=LEDB1Cnt+1;
+  }else{
+  LEDB1=100;}
+
+if((140<=LDRStatus2)&(LEDB1Cnt==0))
+  {
+ LEDB0=0;
+ LEDB1=0;
+ LEDB2=80;
+ LEDB3=70;
+ LEDB2Cnt=LEDB2Cnt+1;
+  }else{
+  LEDB2=100;}
+
+ if((320<=LDRStatus3)&(LEDB1Cnt==0))
+  {
+ LEDB0=40;
+ LEDB1=40;
+ LEDB2=40;
+ LEDB3=40;
+ LEDB3Cnt=LEDB3Cnt+1;
+  }else{ 
+  LEDB3=100;
+  }}else{
+    LEDB0Cnt=0;
+    LEDB1Cnt=0;
+    LEDB2Cnt=0;
+    LEDB3Cnt=0;
+    if(20<=LDRStatus0)
+  {
+ LEDB0=0;
+ LEDB1=180;
+ LEDB2=200;
+ LEDB3=255;
+  }else{
+  LEDB0=255;}
+  
+  
+if(55<=LDRStatus1)
+  {
+ LEDB0=0;
+ LEDB1=0;
+ LEDB2=180;
+ LEDB3=255;
+  }else{
+  LEDB1=255;}
+
+if(140<=LDRStatus2 )
+  {
+ LEDB0=0;
+ LEDB1=0;
+ LEDB2=80;
+ LEDB3=255;
+  }else{
+  LEDB2=255;}
+
+ if(320<=LDRStatus3)
+  {
+ LEDB0=40;
+ LEDB1=40;
+ LEDB2=40;
+ LEDB3=40;
+  }else{ 
+  LEDB3=255;}
+    
+  }
+  delay(200);
+  }
